@@ -29,7 +29,6 @@ This plugin uses the INI-style file format and accepts the following options:
 
   DNS errors always return DENYSOFT, so this should be safe to enable.
 
-
 <!-- leave these buried at the bottom of the document -->
 
 [ci-img]: https://github.com/haraka/haraka-plugin-mail_from.is_resolvable/actions/workflows/ci.yml/badge.svg
