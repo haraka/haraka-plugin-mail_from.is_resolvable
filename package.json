@@ -1,6 +1,6 @@
 {
   "name": "haraka-plugin-mail_from.is_resolvable",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Haraka plugin that checks that the domain used in MAIL FROM is resolvable to an MX record",
   "main": "index.js",
   "files": [
