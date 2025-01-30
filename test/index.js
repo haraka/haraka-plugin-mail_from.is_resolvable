@@ -1,6 +1,5 @@
 'use strict'
 const assert        = require('node:assert/strict')
-const { beforeEach, describe, it } = require('node:test')
 const sinon         = require('sinon')
 
 const fixtures      = require('haraka-test-fixtures')
