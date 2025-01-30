@@ -1,18 +1,15 @@
-
 const assert = require('node:assert/strict')
 const { beforeEach, describe, it } = require('node:test')
-const dns = require('node:dns');
 
 // npm modules
 const fixtures = require('haraka-test-fixtures')
 const Address = require('address-rfc2821').Address
 
-
 beforeEach(() => {
   this.plugin = new fixtures.plugin('mail_from.is_resolvable')
-  this.plugin.register();
+  this.plugin.register()
 
-  this.connection = fixtures.connection.createConnection();
+  this.connection = fixtures.connection.createConnection()
   this.connection.init_transaction()
 })
 
@@ -48,14 +45,17 @@ describe('mail_from.is_resolvable', () => {
 
   describe('hook_mail', () => {
     it('any.com, no err code', (done) => {
-      const txn = this.connection.transaction;
-      this.plugin.hook_mail((code, msg) => {
+      const txn = this.connection.transaction
+      this.plugin.hook_mail(
+        (code, msg) => {
           // console.log()
-          assert.deepEqual(txn.results.get('mail_from.is_resolvable').pass, ['has_fwd_dns']);
-          done();
-      },
-      this.connection, 
-      [new Address('<test@any.com>')]
+          assert.deepEqual(txn.results.get('mail_from.is_resolvable').pass, [
+            'has_fwd_dns',
+          ])
+          done()
+        },
+        this.connection,
+        [new Address('<test@any.com>')],
       )
     })
   })
