@@ -1,5 +1,6 @@
 'use strict'
-const assert        = require('node:assert')
+const assert        = require('node:assert/strict')
+const { beforeEach, describe, it } = require('node:test')
 const sinon         = require('sinon')
 
 const fixtures      = require('haraka-test-fixtures')
@@ -37,7 +38,7 @@ describe('mail_from.is_resolvable', function() {
       assert.equal(this.txt.results.get(this.plugin).skip, 'null host')
       sinon.assert.notCalled(this.get_mx_spy)
       sinon.assert.calledOnce(this.next)
-      assert.strictEqual(this.next.getCall(0).args.length, 0)
+      assert.equal(this.next.getCall(0).args.length, 0)
     })
 
     it('DENYSOFT - get_mx timeout', async function() {
