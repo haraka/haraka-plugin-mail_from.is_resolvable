@@ -34,7 +34,7 @@ describe('mail_from.is_resolvable', function() {
     it('Allow - mail_from without host', async function() {
       await this.plugin.hook_mail(this.next, this.connection, [{}])
 
-      assert.equal(this.txt.results.get(this.plugin).skip, 'null host')
+      assert.equal(this.txt.results.get(this.plugin).skip[0], 'null host')
       sinon.assert.notCalled(this.get_mx_spy)
       sinon.assert.calledOnce(this.next)
       assert.equal(this.next.getCall(0).args.length, 0)
