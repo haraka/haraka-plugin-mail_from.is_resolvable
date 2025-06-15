@@ -19,11 +19,6 @@ exports.load_ini = function () {
     },
   )
 
-  // compat. Sunset 4.0
-  if (this.cfg.main.reject_no_mx) {
-    this.cfg.reject.no_mx = this.cfg.main.reject_no_mx
-  }
-
   this.re_bogus_ip = new RegExp(
     this.cfg.main.re_bogus_ip ||
       '^(?:0\\.0\\.0\\.0|255\\.255\\.255\\.255|127\\.)',
