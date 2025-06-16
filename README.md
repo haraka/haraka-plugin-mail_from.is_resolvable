@@ -10,12 +10,12 @@ record.
 
 This plugin uses the INI-style file format and accepts the following options:
 
-- allow_mx_ip=[0|1]
+- allow_mx_ip=[true | false]
 
   Allow MX records that return IP addresses instead of hostnames.
   This is not allowed as per the RFC, but some MTAs allow it.
 
-- [reject]no_mx=[0|1]
+- [reject]no_mx=[true|false]
 
   Return DENY and reject the command if no MX record is found. Otherwise a
   DENYSOFT (TEMPFAIL) is returned and the client will retry later.
