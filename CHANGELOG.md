@@ -4,8 +4,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ### Unreleased
 
-### [1.2.0] - 2026-04-30
-
 ### [1.1.0] - 2025-06-15
 
 - config: remove attempted (but dysfunctional) reject_no_mx code, fixes #5
