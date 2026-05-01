@@ -15,12 +15,11 @@ This plugin uses the INI-style file format and accepts the following options:
   Allow MX records that return IP addresses instead of hostnames.
   This is not allowed as per the RFC, but some MTAs allow it.
 
-- [reject]no_mx=[true|false]
+- [reject]no_mx=[deny|defer|no]
 
-  Return DENY and reject the command if no MX record is found. Otherwise a
-  DENYSOFT (TEMPFAIL) is returned and the client will retry later.
-
-  DNS errors always return DENYSOFT, so this should be safe to enable.
+  "deny" returns DENY and rejects the command if no MX record is found. "defer"
+  returns a DENYSOFT (TEMPFAIL) and the client will retry later. "no" allows the
+  transaction to continue to the next plugin.
 
 <!-- leave these buried at the bottom of the document -->
 
