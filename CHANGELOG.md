@@ -4,6 +4,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ### Unreleased
 
+### [1.3.0] - 2026-05-17
+
+- dep: address-rfc2821 -> @haraka/email-address
+- feat: use null MX DSN
+- feat: `[main] timeout_ms` caps each DNS call (default 5000ms)
+- doc(README): describe the full check — MX + reachability check + RFC 5321 A/AAAA fallback + RFC 7505 Null MX
+- test: replace sinon with test/fixtures/dns
+
 ### [1.2.0] - 2026-04-30
 
 - changed [reject]no_mx to allow invalid MX record
@@ -35,3 +43,4 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 [1.0.3]: https://github.com/haraka/haraka-plugin-mail_from.is_resolvable/releases/tag/v1.0.3
 [1.1.0]: https://github.com/haraka/haraka-plugin-mail_from.is_resolvable/releases/tag/v1.1.0
 [1.2.0]: https://github.com/haraka/haraka-plugin-mail_from.is_resolvable/releases/tag/v1.2.0
+[1.3.0]: https://github.com/haraka/haraka-plugin-mail_from.is_resolvable/releases/tag/v1.3.0

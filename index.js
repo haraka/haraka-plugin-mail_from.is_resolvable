@@ -2,6 +2,7 @@
 
 // Check MAIL FROM domain is resolvable to an MX
 const net = require('node:net')
+const DSN = require('haraka-dsn')
 const net_utils = require('haraka-net-utils')
 
 exports.register = function () {
@@ -26,6 +27,24 @@ exports.load_ini = function () {
 
   const modes = { no: 'no', false: 'defer', defer: 'defer' }
   this.reject_no_mx = modes[this.cfg.reject.no_mx] || 'deny'
+
+  // Soft cap on how long we'll wait for DNS per call.
+  this.dns_timeout_ms = parseInt(this.cfg.main.timeout_ms, 10) || 5000
+}
+
+// Soft timeout: rejects the await after `ms` ms to bound transaction latency
+function with_timeout(promise, ms, label) {
+  let timer
+  const timeoutPromise = new Promise((_, reject) => {
+    timer = setTimeout(() => {
+      const err = new Error(`${label} timed out after ${ms}ms`)
+      err.code = 'ETIMEOUT'
+      reject(err)
+    }, ms)
+  })
+  return Promise.race([promise, timeoutPromise]).finally(() =>
+    clearTimeout(timer),
+  )
 }
 
 exports.hook_mail = async function (next, connection, params) {
@@ -44,7 +63,11 @@ exports.hook_mail = async function (next, connection, params) {
 
   let exchanges
   try {
-    exchanges = await net_utils.get_mx(domain)
+    exchanges = await with_timeout(
+      net_utils.get_mx(domain),
+      this.dns_timeout_ms,
+      'MX lookup',
+    )
   } catch (err) {
     results.add(this, { err: err.message })
     return next(DENYSOFT, `Temp. resolver error (${err.code})`)
@@ -60,6 +83,20 @@ exports.hook_mail = async function (next, connection, params) {
         this.reject_no_mx === 'deny' ? DENY : DENYSOFT,
         'No MX for your FROM address',
       )
+  }
+
+  // Null MX (RFC 7505) — domain explicitly sends no mail
+  if (
+    exchanges.length === 1 &&
+    exchanges[0].priority === 0 &&
+    exchanges[0].exchange === ''
+  ) {
+    results.add(this, { fail: 'null_mx', emit: true })
+    if (this.reject_no_mx === 'no') return next()
+    return next(
+      DENY,
+      DSN.sec_null_mx_sender(`Null MX: ${domain} does not send mail`),
+    )
   }
 
   if (this.cfg.main.allow_mx_ip) {
@@ -80,7 +117,11 @@ exports.hook_mail = async function (next, connection, params) {
   )
   if (mx_hostnames.length) {
     try {
-      const resolved = await net_utils.resolve_mx_hosts(mx_hostnames)
+      const resolved = await with_timeout(
+        net_utils.resolve_mx_hosts(mx_hostnames),
+        this.dns_timeout_ms,
+        'MX-host resolution',
+      )
       connection.logdebug(this, `resolved MX => ${JSON.stringify(resolved)}`)
       if (resolved.length) {
         for (const mx of resolved) {
