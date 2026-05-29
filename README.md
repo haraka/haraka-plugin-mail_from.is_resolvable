@@ -1,7 +1,6 @@
-[![CI Test Status][ci-img]][ci-url]
-[![Code Climate][clim-img]][clim-url]
-
 # haraka-plugin-mail_from.is_resolvable
+
+[![Test][ci-img]][ci-url] [![Cover][cov-img]][cov-url] [![Qlty][qlty-img]][qlty-url]
 
 This plugin checks that the domain used in MAIL FROM is reachable via DNS. A domain passes when:
 
@@ -36,5 +35,7 @@ This plugin uses the INI-style file format and accepts the following options:
 
 [ci-img]: https://github.com/haraka/haraka-plugin-mail_from.is_resolvable/actions/workflows/ci.yml/badge.svg
 [ci-url]: https://github.com/haraka/haraka-plugin-mail_from.is_resolvable/actions/workflows/ci.yml
-[clim-img]: https://codeclimate.com/github/haraka/haraka-plugin-mail_from.is_resolvable/badges/gpa.svg
-[clim-url]: https://codeclimate.com/github/haraka/haraka-plugin-mail_from.is_resolvable
+[cov-img]: https://codecov.io/github/haraka/haraka-plugin-mail_from.is_resolvable/coverage.svg
+[cov-url]: https://codecov.io/github/haraka/haraka-plugin-mail_from.is_resolvable
+[qlty-img]: https://qlty.sh/gh/haraka/projects/haraka-plugin-mail_from.is_resolvable/maintainability.svg
+[qlty-url]: https://qlty.sh/gh/haraka/projects/haraka-plugin-mail_from.is_resolvable

@@ -10,6 +10,7 @@ const {
 } = require('node:test')
 
 const fixtures = require('haraka-test-fixtures')
+const { makeConnection, makePlugin } = fixtures
 const { Address } = require('@haraka/email-address')
 
 // These tests exercise the plugin against real DNS rather than mocking
@@ -31,11 +32,9 @@ describe('mail_from.is_resolvable', () => {
   let plugin, connection, txt, next
 
   beforeEach(() => {
-    plugin = new fixtures.plugin('mail_from.is_resolvable')
-    plugin.register()
+    plugin = makePlugin('mail_from.is_resolvable')
 
-    connection = fixtures.connection.createConnection()
-    connection.init_transaction()
+    connection = makeConnection({ withTxn: true })
 
     txt = connection.transaction
 
